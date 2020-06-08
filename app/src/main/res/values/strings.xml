@@ -65,4 +65,9 @@
 	<string name="company_subtitle">Family First, Business Second</string>
 	<string name="home">Proceed to Dashboard</string>
     <string name="quick_access">Item</string>
+	<string name="disconnect_bag">Disconnect bag</string>
+	<string name="okay">Ok</string>
+	<string name="cancel">Cancel</string>
+	<string name="bag_disconnected">Bag disconnected</string>
+	<string name="bag_has_been_disconnected">Your SmartBag has been disconnected</string>
 </resources>

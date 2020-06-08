@@ -10,8 +10,8 @@ android {
         applicationId "com.inruca.smartbag"
         minSdkVersion 22
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "0.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -69,4 +69,5 @@ dependencies {
     // To add BLE Library as a module, replace the above dependency with the following
     // and uncomment 2 lines in settings.gradle file.
     // implementation project(":ble-livedata")
+    implementation 'com.afollestad.material-dialogs:core:3.3.0'
 }

@@ -28,7 +28,9 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -110,9 +112,27 @@ public class ScannerActivity extends AppCompatActivity implements DevicesAdapter
         proceed_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ScannerActivity.this, SmartBagDashboard.class));
+                new Handler().postDelayed(() -> {
+                    final Intent intent = new Intent(ScannerActivity.this, SmartBagDashboard.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
+                    finish();
+                }, 0);
+
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        Log.d("ScannerActivity", "" + requestCode + resultCode);
+        if(requestCode==120){
+            if(resultCode==RESULT_OK){
+                finish();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

@@ -4,12 +4,32 @@ import android.os.Bundle
 import android.view.View
 import android.widget.GridLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.afollestad.materialdialogs.MaterialDialog
+import kotlinx.android.synthetic.main.home_dashboard.*
 
 class SmartBagDashboard : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home_dashboard)
         addQuickAccessCircle()
+        diconnect_bag.setOnClickListener {
+            showdisconnectPopUpAndExit()
+        }
+    }
+
+    private fun showdisconnectPopUpAndExit() {
+        MaterialDialog(this).show {
+            title(R.string.bag_disconnected)
+            message(R.string.bag_has_been_disconnected)
+            positiveButton(R.string.okay){
+                dismiss()
+                finish()
+            }
+            negativeButton(R.string.cancel){
+                dismiss()
+                finish()
+            }
+        }
     }
 
     private fun addQuickAccessCircle() {

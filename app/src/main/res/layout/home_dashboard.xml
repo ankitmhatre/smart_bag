@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:weightSum="1.005">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.35"
@@ -16,8 +16,18 @@
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:padding="56dp"
             app:srcCompat="@drawable/bag_vector" />
-    </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/disconnect_bag"
+            android:fontFamily="@font/lato_black"
+            android:id="@+id/diconnect_bag"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
 
     <View
         android:id="@+id/divider"
