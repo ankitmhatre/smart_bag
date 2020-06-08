@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item  name="oneCircle" type="id" />
+    <item name="twoCircle" type="id" />
+    <item name="threeCircle" type="id" />
+    <item name="fourCircle" type="id" />
+    <item name="fiveCircle" type="id" />
+    <item name="sixCircle" type="id" />
+    <item name="sevenCircle" type="id" />
+    <item name="eightCircle" type="id" />
+    <item name="nineCircle" type="id" />
+
+</resources>
