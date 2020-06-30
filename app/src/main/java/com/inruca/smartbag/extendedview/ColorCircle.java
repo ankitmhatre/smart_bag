@@ -1,18 +1,23 @@
-package com.inruca.smartbag;
+package com.inruca.smartbag.extendedview;
+
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Typeface;
-import android.util.AttributeSet;
-import android.util.TypedValue;
+        import android.graphics.Color;
+        import android.graphics.Paint;
+        import android.graphics.Typeface;
+        import android.os.Build;
+        import android.util.AttributeSet;
+        import android.util.TypedValue;
 
-import androidx.appcompat.widget.AppCompatImageView;
+        import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.res.ResourcesCompat;
 
+import com.inruca.smartbag.R;
+
+import java.lang.reflect.Type;
 
 public class ColorCircle extends AppCompatImageView {
 
@@ -39,8 +44,8 @@ public class ColorCircle extends AppCompatImageView {
     private float animationProgress;
 
     private int pressedRingWidth;
-    int fillColor;
-    int borderColor;
+    private int fillColor = Color.WHITE;
+    private int borderColor = Color.WHITE;
 
     private int pressedColor;
     private ObjectAnimator pressedAnimator;
@@ -95,7 +100,6 @@ public class ColorCircle extends AppCompatImageView {
         canvas.drawCircle(centerX, centerY, circleRadius - borderWidth + animationProgress, focusPaint);
         canvas.drawCircle(centerX, centerY, outerRadius, fillPaint);
         canvas.drawCircle(centerX, centerY, outerRadius, strokePaint);
-
         desc = desc.toUpperCase();
         int xPos = (int) ((getWidth() / 2) - drawOverTextPaint.measureText(desc) / 2);
         int yPos = (int) ((getHeight() / 2) + centerY * 0.5f);
@@ -134,7 +138,6 @@ public class ColorCircle extends AppCompatImageView {
         this.invalidate();
     }
 
-
     public void setColor(int fillColor, int borderColor) {
 
 
@@ -143,7 +146,6 @@ public class ColorCircle extends AppCompatImageView {
         this.pressedColor = getHighlightColor(fillColor, PRESSED_COLOR_LIGHTUP);
 
         fillPaint.setColor(fillColor);
-        //strokePaint.setShadowLayer(15, 1, 1, Color.BLACK);
         notificationPaint.setColor(Color.RED);
         notificationPaintText.setColor(Color.WHITE);
 
@@ -161,7 +163,7 @@ public class ColorCircle extends AppCompatImageView {
     }
 
     private void showPressedRing() {
-        fillPaint.setColor(fillPaint.getColor());
+        fillPaint.setColor(fillPaint.getColor() - 0x33000000);
         pressedAnimator.setFloatValues(animationProgress, pressedRingWidth);
         pressedAnimator.start();
     }
@@ -183,7 +185,7 @@ public class ColorCircle extends AppCompatImageView {
             color = a.getColor(R.styleable.ColorCircle_fillColor, color);
             fillColor = a.getColor(R.styleable.ColorCircle_fillColor, color);
             desc = (a.getString(R.styleable.ColorCircle_desc) != null ? (a.getString(R.styleable.ColorCircle_desc)) : "");
-            borderColor = a.getColor(R.styleable.ColorCircle_borderColor, getResources().getColor(R.color.inrucaAccent));
+            borderColor = a.getColor(R.styleable.ColorCircle_borderColor, fillColor);
             borderWidth = a.getDimension(R.styleable.ColorCircle_borderWidth, 0);
             circleRadius = a.getDimension(R.styleable.ColorCircle_circleRadius, centerX);
             notificationCount = a.getInteger(R.styleable.ColorCircle_notificationCount, 0);
@@ -211,9 +213,9 @@ public class ColorCircle extends AppCompatImageView {
         drawOverTextPaint.setTextSize(pixel);
 
 
-        drawOverTextPaint.setColor(ResourcesCompat.getColor(getResources(), R.color.inrucaAccent, null));
-        drawOverTextPaint.setTypeface(ResourcesCompat.getFont(context, R.font.lato_black));
-        drawOverTextPaint.setTypeface(Typeface.DEFAULT_BOLD);
+        drawOverTextPaint.setColor(ResourcesCompat.getColor(getResources(),R.color.inrucaAccent, null));
+       // drawOverTextPaint.setTypeface(ResourcesCompat.getFont(context, R.font.circular_font));
+        drawOverTextPaint.setTypeface(Typeface.DEFAULT_BOLD );
 
 
         notificationPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -224,7 +226,7 @@ public class ColorCircle extends AppCompatImageView {
 
         strokePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         strokePaint.setStyle(Paint.Style.STROKE);
-        strokePaint.setStrokeWidth(0);
+        strokePaint.setStrokeWidth(borderWidth);
 
         pressedRingWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_PRESSED_RING_WIDTH_DIP, getResources()
                 .getDisplayMetrics());
@@ -232,7 +234,7 @@ public class ColorCircle extends AppCompatImageView {
 
         setColor(fillColor, borderColor);
 
-        focusPaint.setStrokeWidth(0);
+        focusPaint.setStrokeWidth(pressedRingWidth);
 
         final int pressedAnimationTime = getResources().getInteger(ANIMATION_TIME_ID);
         pressedAnimator = ObjectAnimator.ofFloat(this, "animationProgress", 0f, 0f);

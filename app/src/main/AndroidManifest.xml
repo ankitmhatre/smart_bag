@@ -34,9 +34,9 @@
             android:launchMode="singleTop"
             android:parentActivityName=".ScannerActivity">
         </activity>
-        <activity android:name=".SmartBagDashboard"
-            android:launchMode="singleTop">
-        </activity>
+<!--        <activity android:name=".SmartBagDashboard"-->
+<!--            android:launchMode="singleTop">-->
+<!--        </activity>-->
 
     </application>
 

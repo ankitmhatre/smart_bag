@@ -20,182 +20,271 @@
   ~ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	tools:context=".SmartBagActivty"
-	tools:ignore="ContentDescription">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SmartBagActivty"
+    tools:ignore="ContentDescription">
 
-	<com.google.android.material.appbar.AppBarLayout
-		android:id="@+id/appbar_layout"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:theme="@style/AppTheme.AppBarOverlay">
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-		<com.google.android.material.appbar.MaterialToolbar
-			android:id="@+id/toolbar"
-			android:layout_width="match_parent"
-			android:layout_height="?attr/actionBarSize"
-			app:popupTheme="@style/AppTheme.PopupOverlay" />
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-	</com.google.android.material.appbar.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-	<ScrollView
-		android:id="@+id/device_container"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_below="@+id/appbar_layout"
-		android:visibility="gone"
-		tools:visibility="visible">
+    <ScrollView
+        android:id="@+id/device_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/appbar_layout"
 
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="vertical">
+        android:visibility="gone">
 
-			<com.google.android.material.card.MaterialCardView
-				android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.google.android.material.appbar.MaterialToolbar
+                        android:id="@+id/led_tool_bar"
+                        android:layout_width="0dp"
+                        android:layout_height="?actionBarSize"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:logo="@drawable/ic_toolbar_lightbulb"
+                        app:title="@string/title_led_state"
+                        app:titleMarginStart="@dimen/toolbar_title_margin" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/led_summary"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/activity_horizontal_margin"
+                        android:paddingEnd="@dimen/activity_horizontal_margin"
+                        android:text="@string/led_summary"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/led_tool_bar" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/led_state"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/activity_horizontal_margin"
+                        android:text="@string/turn_off"
+                        android:textAllCaps="true"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/led_summary" />
+
+<!--                    <com.google.android.material.switchmaterial.SwitchMaterial-->
+<!--                        android:id="@+id/led_switch"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:padding="@dimen/activity_horizontal_margin"-->
+<!--                        app:layout_constraintBaseline_toBaselineOf="@+id/led_state"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent" />-->
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.google.android.material.appbar.MaterialToolbar
+                        android:id="@+id/button_tool_bar"
+                        android:layout_width="0dp"
+                        android:layout_height="?actionBarSize"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:logo="@drawable/ic_toolbar_button"
+                        app:title="@string/title_button_state"
+                        app:titleMarginStart="@dimen/toolbar_title_margin" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/button_summary"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/activity_horizontal_margin"
+                        android:paddingEnd="@dimen/activity_horizontal_margin"
+                        android:text="@string/button_summary"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/button_tool_bar" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/textView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/activity_horizontal_margin"
+                        android:text="@string/state"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/button_summary" />
+
+                   <!-- <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/button_state"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/activity_horizontal_margin"
+                        android:text="@string/button_unknown"
+                        android:textAllCaps="true"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/textView"
+                        app:layout_constraintRight_toRightOf="parent" />-->
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+
+    </ScrollView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginTop="?actionBarSize"
+        android:foregroundGravity="center"
+        android:padding="8dp">
+
+
+        <GridLayout
+            android:id="@+id/quickAccess"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="4dp"
+
+            android:columnCount="3"
+            android:gravity="center"
+            android:padding="@dimen/default_text_size"
+            android:scrollbars="none">
+
+			<RelativeLayout
+				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="@dimen/activity_horizontal_margin">
+				android:layout_gravity="center_vertical"
+				>
+				<com.inruca.smartbag.extendedview.ColorCircle
+					android:id="@+id/stationNmmtCircleView"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical"
+					android:layout_margin="@dimen/quick_access_margin"
+					android:onClick="colorCircleClicked"
+					app:borderColor="@color/inrucaAccent"
+					app:borderWidth="2dp"
+					app:desc="@string/title_led_state"
+					app:circleRadius="@dimen/side_menu_quick_access_radius"
+					app:fillColor="?android:attr/colorBackground"
+					/>
 
-				<androidx.constraintlayout.widget.ConstraintLayout
-					android:layout_width="match_parent"
-					android:layout_height="match_parent">
+				<com.google.android.material.switchmaterial.SwitchMaterial
+					android:id="@+id/led_switch"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:padding="@dimen/activity_horizontal_margin"
+					android:layout_alignParentBottom="true"
+					android:layout_centerHorizontal="true"
+					app:layout_constraintEnd_toEndOf="parent" />
 
-					<com.google.android.material.appbar.MaterialToolbar
-						android:id="@+id/led_tool_bar"
-						android:layout_width="0dp"
-						android:layout_height="?actionBarSize"
-						app:layout_constraintLeft_toLeftOf="parent"
-						app:layout_constraintRight_toRightOf="parent"
-						app:layout_constraintTop_toTopOf="parent"
-						app:logo="@drawable/ic_toolbar_lightbulb"
-						app:title="@string/title_led_state"
-						app:titleMarginStart="@dimen/toolbar_title_margin" />
 
-					<com.google.android.material.textview.MaterialTextView
-						android:id="@+id/led_summary"
-						android:layout_width="0dp"
-						android:layout_height="wrap_content"
-						android:paddingStart="@dimen/activity_horizontal_margin"
-						android:paddingEnd="@dimen/activity_horizontal_margin"
-						android:text="@string/led_summary"
-						android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-						app:layout_constraintLeft_toLeftOf="parent"
-						app:layout_constraintTop_toBottomOf="@+id/led_tool_bar" />
 
-					<com.google.android.material.textview.MaterialTextView
-						android:id="@+id/led_state"
-						android:layout_width="0dp"
-						android:layout_height="wrap_content"
-						android:padding="@dimen/activity_horizontal_margin"
-						android:text="@string/turn_off"
-						android:textAllCaps="true"
-						android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-						app:layout_constraintLeft_toLeftOf="parent"
-						app:layout_constraintTop_toBottomOf="@+id/led_summary" />
+			</RelativeLayout>
 
-					<com.google.android.material.switchmaterial.SwitchMaterial
-						android:id="@+id/led_switch"
-						android:layout_width="0dp"
-						android:layout_height="wrap_content"
-						android:padding="@dimen/activity_horizontal_margin"
-						app:layout_constraintBaseline_toBaselineOf="@+id/led_state"
-						app:layout_constraintEnd_toEndOf="parent" />
-
-				</androidx.constraintlayout.widget.ConstraintLayout>
-			</com.google.android.material.card.MaterialCardView>
-
-			<com.google.android.material.card.MaterialCardView
-				android:layout_width="match_parent"
+			<RelativeLayout
+				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="@dimen/activity_horizontal_margin"
-				android:layout_marginBottom="@dimen/activity_horizontal_margin">
+				android:layout_gravity="center_vertical"
+				>
+				<com.inruca.smartbag.extendedview.ColorCircle
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical"
+					android:layout_margin="@dimen/quick_access_margin"
+					android:onClick="colorCircleClicked"
+					app:borderColor="@color/inrucaAccent"
+					app:borderWidth="2dp"
+					app:circleRadius="@dimen/side_menu_quick_access_radius"
+					app:fillColor="?android:attr/colorBackground"
+					/>
 
-				<androidx.constraintlayout.widget.ConstraintLayout
-					android:layout_width="match_parent"
-					android:layout_height="match_parent">
+				<com.google.android.material.textview.MaterialTextView
+					android:id="@+id/button_state"
+					android:layout_width="wrap_content"
+					android:layout_centerInParent="true"
+					android:layout_height="wrap_content"
+					android:padding="@dimen/activity_horizontal_margin"
+					android:text="@string/button_unknown"
+					android:textAllCaps="true"
+					android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+					app:layout_constraintRight_toRightOf="parent" />
 
-					<com.google.android.material.appbar.MaterialToolbar
-						android:id="@+id/button_tool_bar"
-						android:layout_width="0dp"
-						android:layout_height="?actionBarSize"
-						app:layout_constraintLeft_toLeftOf="parent"
-						app:layout_constraintRight_toRightOf="parent"
-						app:layout_constraintTop_toTopOf="parent"
-						app:logo="@drawable/ic_toolbar_button"
-						app:title="@string/title_button_state"
-						app:titleMarginStart="@dimen/toolbar_title_margin" />
 
-					<com.google.android.material.textview.MaterialTextView
-						android:id="@+id/button_summary"
-						android:layout_width="0dp"
-						android:layout_height="wrap_content"
-						android:paddingStart="@dimen/activity_horizontal_margin"
-						android:paddingEnd="@dimen/activity_horizontal_margin"
-						android:text="@string/button_summary"
-						android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-						app:layout_constraintLeft_toLeftOf="parent"
-						app:layout_constraintTop_toBottomOf="@+id/button_tool_bar" />
 
-					<com.google.android.material.textview.MaterialTextView
-						android:id="@+id/textView"
-						android:layout_width="0dp"
-						android:layout_height="wrap_content"
-						android:padding="@dimen/activity_horizontal_margin"
-						android:text="@string/state"
-						android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-						app:layout_constraintLeft_toLeftOf="parent"
-						app:layout_constraintTop_toBottomOf="@+id/button_summary" />
+			</RelativeLayout>
+        </GridLayout>
+    </ScrollView>
 
-					<com.google.android.material.textview.MaterialTextView
-						android:id="@+id/button_state"
-						android:layout_width="0dp"
-						android:layout_height="wrap_content"
-						android:padding="@dimen/activity_horizontal_margin"
-						android:text="@string/button_unknown"
-						android:textAllCaps="true"
-						android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-						app:layout_constraintBaseline_toBaselineOf="@+id/textView"
-						app:layout_constraintRight_toRightOf="parent" />
-				</androidx.constraintlayout.widget.ConstraintLayout>
-			</com.google.android.material.card.MaterialCardView>
-		</LinearLayout>
-	</ScrollView>
+    <LinearLayout
+        android:id="@+id/progress_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:visibility="gone"
+        tools:visibility="gone">
 
-	<LinearLayout
-		android:id="@+id/progress_container"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_centerInParent="true"
-		android:gravity="center_horizontal"
-		android:orientation="vertical"
-		android:padding="@dimen/activity_horizontal_margin"
-		android:visibility="gone"
-		tools:visibility="gone">
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/connection_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textSize="16sp"
+            tools:text="@string/state_connecting" />
 
-		<com.google.android.material.textview.MaterialTextView
-			android:id="@+id/connection_state"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:gravity="center_horizontal"
-			android:textSize="16sp"
-			tools:text="@string/state_connecting" />
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+    </LinearLayout>
 
-		<ProgressBar
-			style="?android:attr/progressBarStyleHorizontal"
-			android:layout_width="250dp"
-			android:layout_height="wrap_content"
-			android:indeterminate="true" />
-	</LinearLayout>
-
-	<include
-		android:id="@+id/not_supported"
-		layout="@layout/info_not_supported"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_centerInParent="true"
-		android:visibility="gone"
-		tools:visibility="gone" />
+    <include
+        android:id="@+id/not_supported"
+        layout="@layout/info_not_supported"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        tools:visibility="gone" />
 </RelativeLayout>

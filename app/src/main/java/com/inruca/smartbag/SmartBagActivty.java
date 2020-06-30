@@ -91,7 +91,7 @@ public class SmartBagActivty extends AppCompatActivity {
 					break;
 				case READY:
 					progressContainer.setVisibility(View.GONE);
-					content.setVisibility(View.VISIBLE);
+					//content.setVisibility(View.VISIBLE);
 					onConnectionStateChanged(true);
 					break;
 				case DISCONNECTED:
@@ -128,5 +128,8 @@ public class SmartBagActivty extends AppCompatActivity {
 			led.setChecked(false);
 			buttonState.setText(R.string.button_unknown);
 		}
+	}
+	public void colorCircleClicked(View view){
+
 	}
 }
