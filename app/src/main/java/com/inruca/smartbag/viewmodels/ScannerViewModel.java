@@ -142,20 +142,20 @@ public class ScannerViewModel extends AndroidViewModel {
 	 * Start scanning for Bluetooth devices.
 	 */
 	public void startScan() {
-//		if (scannerStateLiveData.isScanning()) {
-//			return;
-//		}
-//
-//		// Scanning settings
-//		final ScanSettings settings = new ScanSettings.Builder()
-//				.setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
-//				.setReportDelay(500)
-//				.setUseHardwareBatchingIfSupported(false)
-//				.build();
-//
-//		final BluetoothLeScannerCompat scanner = BluetoothLeScannerCompat.getScanner();
-//		scanner.startScan(null, settings, scanCallback);
-//		scannerStateLiveData.scanningStarted();
+		if (scannerStateLiveData.isScanning()) {
+			return;
+		}
+
+		// Scanning settings
+		final ScanSettings settings = new ScanSettings.Builder()
+				.setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
+				.setReportDelay(500)
+				.setUseHardwareBatchingIfSupported(false)
+				.build();
+
+		final BluetoothLeScannerCompat scanner = BluetoothLeScannerCompat.getScanner();
+		scanner.startScan(null, settings, scanCallback);
+		scannerStateLiveData.scanningStarted();
 	}
 
 	/**
