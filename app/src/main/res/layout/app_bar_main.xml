@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:elevation="0dp"
+        android:id="@+id/appbar_layout"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="@color/colorBackground"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            android:weightSum="1">
+
+            <!--        <com.google.android.material.appbar.MaterialToolbar-->
+            <!--            android:id="@+id/toolbar"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:visibility="gone"-->
+            <!--            -->
+            <!--            android:layout_height="?attr/actionBarSize"-->
+            <!--            app:popupTheme="@style/AppTheme.PopupOverlay" />-->
+
+
+            <ImageView
+                android:id="@+id/nav_drawer_icon_toolbar"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="start|left"
+                android:layout_weight="0.2"
+                android:padding="8dp"
+                app:srcCompat="@drawable/ic_menu_black_18dp" />
+
+
+            <TextView
+                android:id="@+id/header_text_toolbar"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="0.6"
+                android:fontFamily="@font/lato_black"
+                android:gravity="center"
+                android:text="@string/feature_name"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="36sp" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="end|right"
+                android:layout_weight="0.2"
+                android:padding="8dp"
+                app:srcCompat="@drawable/ic_account_circle_black_18dp" />
+
+
+        </LinearLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -26,26 +26,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.GridLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.Dimension;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.inruca.smartbag.adapter.DiscoveredBluetoothDevice;
+import com.inruca.smartbag.viewmodels.BlinkyViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import no.nordicsemi.android.ble.livedata.state.ConnectionState;
-
-import com.inruca.smartbag.adapter.DiscoveredBluetoothDevice;
-import com.inruca.smartbag.viewmodels.BlinkyViewModel;
 
 @SuppressWarnings("ConstantConditions")
 public class SmartBagActivty extends AppCompatActivity {
@@ -59,6 +56,10 @@ public class SmartBagActivty extends AppCompatActivity {
     TextView buttonState;
     @BindView(R.id.quickAccess)
     GridLayout quickAccess;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawer;
+    @BindView(R.id.nav_drawer_icon_toolbar)
+    ImageView nav_drawer_icon_toolbar;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -71,13 +72,25 @@ public class SmartBagActivty extends AppCompatActivity {
         final String deviceName = device.getName();
         final String deviceAddress = device.getAddress();
 
-//        final MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        //final MaterialToolbar toolbar = findViewById(R.id.toolbar);
 //
 //
 //        toolbar.setTitle(deviceName != null ? deviceName : getString(R.string.unknown_device));
 //        toolbar.setSubtitle(deviceAddress);
 //        setSupportActionBar(toolbar);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        nav_drawer_icon_toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                } else {
+                    drawer.openDrawer(GravityCompat.START);
+                }
+            }
+        });
+
 
         // Configure the view model.
         viewModel = new ViewModelProvider(this).get(BlinkyViewModel.class);

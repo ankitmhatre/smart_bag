@@ -70,4 +70,6 @@
 	<string name="cancel">Cancel</string>
 	<string name="bag_disconnected">Bag disconnected</string>
 	<string name="bag_has_been_disconnected">Your SmartBag has been disconnected</string>
+	<string name="navigation_drawer_open">open</string>
+	<string name="navigation_drawer_close">close</string>
 </resources>
