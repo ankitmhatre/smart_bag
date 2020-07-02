@@ -53,10 +53,10 @@ public class SmartBagActivty extends AppCompatActivity {
 
     private BlinkyViewModel viewModel;
 
-//    @BindView(R.id.led_switch)
-//    SwitchMaterial led;
-//    @BindView(R.id.button_state)
-//    TextView buttonState;
+    @BindView(R.id.led_switch)
+    SwitchMaterial led;
+    @BindView(R.id.button_state)
+    TextView buttonState;
     @BindView(R.id.quickAccess)
     GridLayout quickAccess;
 
@@ -71,11 +71,13 @@ public class SmartBagActivty extends AppCompatActivity {
         final String deviceName = device.getName();
         final String deviceAddress = device.getAddress();
 
-        final MaterialToolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(deviceName != null ? deviceName : getString(R.string.unknown_device));
-        toolbar.setSubtitle(deviceAddress);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        final MaterialToolbar toolbar = findViewById(R.id.toolbar);
+//
+//
+//        toolbar.setTitle(deviceName != null ? deviceName : getString(R.string.unknown_device));
+//        toolbar.setSubtitle(deviceAddress);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Configure the view model.
         viewModel = new ViewModelProvider(this).get(BlinkyViewModel.class);
@@ -140,43 +142,43 @@ public class SmartBagActivty extends AppCompatActivity {
         ///////////////////////////////////////
 
 
-//        led.setOnCheckedChangeListener((buttonView, isChecked) -> viewModel.setLedState(isChecked));
-//        viewModel.getConnectionState().observe(this, state -> {
-//            switch (state.getState()) {
-//                case CONNECTING:
-//                    progressContainer.setVisibility(View.VISIBLE);
-//                    notSupported.setVisibility(View.GONE);
-//                    connectionState.setText(R.string.state_connecting);
-//                    break;
-//                case INITIALIZING:
-//                    connectionState.setText(R.string.state_initializing);
-//                    break;
-//                case READY:
-//                    progressContainer.setVisibility(View.GONE);
-//                    //content.setVisibility(View.VISIBLE);
-//                    onConnectionStateChanged(true);
-//                    break;
-//                case DISCONNECTED:
-//                    if (state instanceof ConnectionState.Disconnected) {
-//                        final ConnectionState.Disconnected stateWithReason = (ConnectionState.Disconnected) state;
-//                        if (stateWithReason.isNotSupported()) {
-//                            progressContainer.setVisibility(View.GONE);
-//                            notSupported.setVisibility(View.VISIBLE);
-//                        }
-//                    }
-//                    // fallthrough
-//                case DISCONNECTING:
-//                    onConnectionStateChanged(false);
-//                    break;
-//            }
-//        });
-//        viewModel.getLedState().observe(this, isOn -> {
-//            ledState.setText(isOn ? R.string.turn_on : R.string.turn_off);
-//            led.setChecked(isOn);
-//        });
-//        viewModel.getButtonState().observe(this,
-//                pressed -> buttonState.setText(pressed ?
-//                        R.string.button_pressed : R.string.button_released));
+        led.setOnCheckedChangeListener((buttonView, isChecked) -> viewModel.setLedState(isChecked));
+        viewModel.getConnectionState().observe(this, state -> {
+            switch (state.getState()) {
+                case CONNECTING:
+                    progressContainer.setVisibility(View.VISIBLE);
+                    notSupported.setVisibility(View.GONE);
+                    connectionState.setText(R.string.state_connecting);
+                    break;
+                case INITIALIZING:
+                    connectionState.setText(R.string.state_initializing);
+                    break;
+                case READY:
+                    progressContainer.setVisibility(View.GONE);
+                    //content.setVisibility(View.VISIBLE);
+                    onConnectionStateChanged(true);
+                    break;
+                case DISCONNECTED:
+                    if (state instanceof ConnectionState.Disconnected) {
+                        final ConnectionState.Disconnected stateWithReason = (ConnectionState.Disconnected) state;
+                        if (stateWithReason.isNotSupported()) {
+                            progressContainer.setVisibility(View.GONE);
+                            notSupported.setVisibility(View.VISIBLE);
+                        }
+                    }
+                    // fallthrough
+                case DISCONNECTING:
+                    onConnectionStateChanged(false);
+                    break;
+            }
+        });
+        viewModel.getLedState().observe(this, isOn -> {
+            ledState.setText(isOn ? R.string.turn_on : R.string.turn_off);
+            led.setChecked(isOn);
+        });
+        viewModel.getButtonState().observe(this,
+                pressed -> buttonState.setText(pressed ?
+                        R.string.button_pressed : R.string.button_released));
     }
 
     @OnClick(R.id.action_clear_cache)
@@ -185,11 +187,11 @@ public class SmartBagActivty extends AppCompatActivity {
     }
 
     private void onConnectionStateChanged(final boolean connected) {
-//        led.setEnabled(connected);
-//        if (!connected) {
-//            led.setChecked(false);
-//            buttonState.setText(R.string.button_unknown);
-//        }
+        led.setEnabled(connected);
+        if (!connected) {
+            led.setChecked(false);
+            buttonState.setText(R.string.button_unknown);
+        }
     }
 
     public void colorCircleClicked(View view) {

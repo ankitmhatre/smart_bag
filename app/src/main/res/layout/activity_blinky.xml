@@ -27,19 +27,57 @@
     tools:context=".SmartBagActivty"
     tools:ignore="ContentDescription">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <LinearLayout
         android:id="@+id/appbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorBackground"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:weightSum="1">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+        <!--        <com.google.android.material.appbar.MaterialToolbar-->
+        <!--            android:id="@+id/toolbar"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:visibility="gone"-->
+        <!--            -->
+        <!--            android:layout_height="?attr/actionBarSize"-->
+        <!--            app:popupTheme="@style/AppTheme.PopupOverlay" />-->
 
-    </com.google.android.material.appbar.AppBarLayout>
+
+        <ImageView
+            android:id="@+id/nav_drawer_icon_toolbar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start|left"
+            android:layout_weight="0.2"
+            android:padding="8dp"
+            app:srcCompat="@drawable/ic_menu_black_18dp" />
+
+
+        <TextView
+            android:id="@+id/header_text_toolbar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="0.6"
+            android:fontFamily="@font/lato_black"
+            android:gravity="center"
+            android:text="@string/feature_name"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="36sp" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end|right"
+            android:layout_weight="0.2"
+            android:padding="8dp"
+            app:srcCompat="@drawable/ic_account_circle_black_18dp" />
+
+
+    </LinearLayout>
 
     <ScrollView
         android:id="@+id/device_container"
@@ -96,13 +134,13 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/led_summary" />
 
-<!--                    <com.google.android.material.switchmaterial.SwitchMaterial-->
-<!--                        android:id="@+id/led_switch"-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:padding="@dimen/activity_horizontal_margin"-->
-<!--                        app:layout_constraintBaseline_toBaselineOf="@+id/led_state"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent" />-->
+                    <!--                    <com.google.android.material.switchmaterial.SwitchMaterial-->
+                    <!--                        android:id="@+id/led_switch"-->
+                    <!--                        android:layout_width="0dp"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:padding="@dimen/activity_horizontal_margin"-->
+                    <!--                        app:layout_constraintBaseline_toBaselineOf="@+id/led_state"-->
+                    <!--                        app:layout_constraintEnd_toEndOf="parent" />-->
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -149,16 +187,16 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/button_summary" />
 
-                   <!-- <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/button_state"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/activity_horizontal_margin"
-                        android:text="@string/button_unknown"
-                        android:textAllCaps="true"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                        app:layout_constraintBaseline_toBaselineOf="@+id/textView"
-                        app:layout_constraintRight_toRightOf="parent" />-->
+                    <!-- <com.google.android.material.textview.MaterialTextView
+                         android:id="@+id/button_state"
+                         android:layout_width="0dp"
+                         android:layout_height="wrap_content"
+                         android:padding="@dimen/activity_horizontal_margin"
+                         android:text="@string/button_unknown"
+                         android:textAllCaps="true"
+                         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                         app:layout_constraintBaseline_toBaselineOf="@+id/textView"
+                         app:layout_constraintRight_toRightOf="parent" />-->
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
@@ -166,95 +204,125 @@
 
     </ScrollView>
 
-    <ScrollView
+    <View
+        android:id="@+id/divider_upper_1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginHorizontal="36dp"
+        android:layout_marginTop="24dp"
+        android:layout_below="@id/appbar_layout"
+        android:background="@color/black"  />
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_marginTop="?actionBarSize"
-        android:foregroundGravity="center"
-        android:padding="8dp">
+        android:orientation="vertical"
+        android:layout_below="@id/divider_upper_1"
+        android:weightSum="1">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.3">
+
+            <TextView
+                android:id="@+id/greeting_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="36dp"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:fontFamily="@font/lato_black"
+                android:text="Good Morning Tushar" />
+        </LinearLayout>
+        <View
+            android:id="@+id/divider_upper_2"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginHorizontal="36dp"
+            android:background="@color/black"  />
 
         <GridLayout
             android:id="@+id/quickAccess"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_gravity="center"
             android:layout_marginBottom="4dp"
-
+            android:layout_weight="0.6"
             android:columnCount="3"
             android:gravity="center"
             android:padding="@dimen/default_text_size"
-            android:scrollbars="none">
-<!--			<ImageView android:layout_width="108dp"-->
-<!--				android:layout_height="108dp"-->
-<!--				android:src="@drawable/icon_battery" />-->
-
-<!--			<RelativeLayout-->
-<!--				android:layout_width="wrap_content"-->
-<!--				android:layout_height="wrap_content"-->
-<!--				android:layout_gravity="center_vertical"-->
-<!--				>-->
-<!--				<com.inruca.smartbag.extendedview.ColorCircle-->
-<!--					android:id="@+id/stationNmmtCircleView"-->
-<!--					android:layout_width="wrap_content"-->
-<!--					android:layout_height="wrap_content"-->
-<!--					android:layout_gravity="center_vertical"-->
-<!--					android:layout_margin="@dimen/quick_access_margin"-->
-<!--					android:onClick="colorCircleClicked"-->
-<!--					app:borderColor="@color/inrucaAccent"-->
-<!--					app:borderWidth="2dp"-->
-<!--					app:desc="@string/title_led_state"-->
-<!--					app:circleRadius="@dimen/side_menu_quick_access_radius"-->
-<!--					app:fillColor="?android:attr/colorBackground"-->
-<!--					/>-->
-
-<!--				<com.google.android.material.switchmaterial.SwitchMaterial-->
-<!--					android:id="@+id/led_switch"-->
-<!--					android:layout_width="wrap_content"-->
-<!--					android:layout_height="wrap_content"-->
-<!--					android:padding="@dimen/activity_horizontal_margin"-->
-<!--					android:layout_alignParentBottom="true"-->
-<!--					android:layout_centerHorizontal="true"-->
-<!--					app:layout_constraintEnd_toEndOf="parent" />-->
+            android:scrollbars="none" />
 
 
-
-<!--			</RelativeLayout>-->
-
-<!--			<RelativeLayout-->
-<!--				android:layout_width="wrap_content"-->
-<!--				android:layout_height="wrap_content"-->
-<!--				android:layout_gravity="center_vertical"-->
-<!--				>-->
-<!--				<com.inruca.smartbag.extendedview.ColorCircle-->
-<!--					android:layout_width="wrap_content"-->
-<!--					android:layout_height="wrap_content"-->
-<!--					android:layout_gravity="center_vertical"-->
-<!--					android:layout_margin="@dimen/quick_access_margin"-->
-<!--					android:onClick="colorCircleClicked"-->
-<!--					app:borderColor="@color/inrucaAccent"-->
-<!--					app:borderWidth="2dp"-->
-<!--					app:circleRadius="@dimen/side_menu_quick_access_radius"-->
-<!--					app:fillColor="?android:attr/colorBackground"-->
-<!--					/>-->
-
-<!--				<com.google.android.material.textview.MaterialTextView-->
-<!--					android:id="@+id/button_state"-->
-<!--					android:layout_width="wrap_content"-->
-<!--					android:layout_centerInParent="true"-->
-<!--					android:layout_height="wrap_content"-->
-<!--					android:padding="@dimen/activity_horizontal_margin"-->
-<!--					android:text="@string/button_unknown"-->
-<!--					android:textAllCaps="true"-->
-<!--					android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"-->
-<!--					app:layout_constraintRight_toRightOf="parent" />-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
+            android:orientation="vertical">
 
 
+            <View
+                android:id="@+id/divider_lower_1"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
 
-<!--			</RelativeLayout>-->
-        </GridLayout>
-    </ScrollView>
+                android:layout_marginHorizontal="36dp"
+                android:background="@color/black" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+
+                <ImageView
+                    android:id="@+id/facebook_social_icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/ic_facebook" />
+                <ImageView
+                    android:id="@+id/twitter_social_icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/ic_twitter_square_filled" />
+                <ImageView
+                    android:id="@+id/email_social_icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/ic_mail_twotone" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/led_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/button_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:text="@string/button_unknown"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    app:layout_constraintRight_toRightOf="parent" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/progress_container"
