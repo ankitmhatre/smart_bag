@@ -25,9 +25,14 @@ package com.inruca.smartbag;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.GridLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Dimension;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -38,98 +43,156 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import no.nordicsemi.android.ble.livedata.state.ConnectionState;
+
 import com.inruca.smartbag.adapter.DiscoveredBluetoothDevice;
 import com.inruca.smartbag.viewmodels.BlinkyViewModel;
 
 @SuppressWarnings("ConstantConditions")
 public class SmartBagActivty extends AppCompatActivity {
-	public static final String EXTRA_DEVICE = "com.inruca.smartbag.blinky.EXTRA_DEVICE";
+    public static final String EXTRA_DEVICE = "com.inruca.smartbag.blinky.EXTRA_DEVICE";
 
-	private BlinkyViewModel viewModel;
+    private BlinkyViewModel viewModel;
 
-	@BindView(R.id.led_switch) SwitchMaterial led;
-	@BindView(R.id.button_state) TextView buttonState;
+//    @BindView(R.id.led_switch)
+//    SwitchMaterial led;
+//    @BindView(R.id.button_state)
+//    TextView buttonState;
+    @BindView(R.id.quickAccess)
+    GridLayout quickAccess;
 
-	@Override
-	protected void onCreate(final Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_blinky);
-		ButterKnife.bind(this);
+    @Override
+    protected void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_blinky);
+        ButterKnife.bind(this);
 
-		final Intent intent = getIntent();
-		final DiscoveredBluetoothDevice device = intent.getParcelableExtra(EXTRA_DEVICE);
-		final String deviceName = device.getName();
-		final String deviceAddress = device.getAddress();
+        final Intent intent = getIntent();
+        final DiscoveredBluetoothDevice device = intent.getParcelableExtra(EXTRA_DEVICE);
+        final String deviceName = device.getName();
+        final String deviceAddress = device.getAddress();
 
-		final MaterialToolbar toolbar = findViewById(R.id.toolbar);
-		toolbar.setTitle(deviceName != null ? deviceName : getString(R.string.unknown_device));
-		toolbar.setSubtitle(deviceAddress);
-		setSupportActionBar(toolbar);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        final MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(deviceName != null ? deviceName : getString(R.string.unknown_device));
+        toolbar.setSubtitle(deviceAddress);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		// Configure the view model.
-		viewModel = new ViewModelProvider(this).get(BlinkyViewModel.class);
-		viewModel.connect(device);
+        // Configure the view model.
+        viewModel = new ViewModelProvider(this).get(BlinkyViewModel.class);
+        viewModel.connect(device);
 
-		// Set up views.
-		final TextView ledState = findViewById(R.id.led_state);
-		final LinearLayout progressContainer = findViewById(R.id.progress_container);
-		final TextView connectionState = findViewById(R.id.connection_state);
-		final View content = findViewById(R.id.device_container);
-		final View notSupported = findViewById(R.id.not_supported);
+        // Set up views.
+        final TextView ledState = findViewById(R.id.led_state);
+        final LinearLayout progressContainer = findViewById(R.id.progress_container);
+        final TextView connectionState = findViewById(R.id.connection_state);
+        final View content = findViewById(R.id.device_container);
+        final View notSupported = findViewById(R.id.not_supported);
 
-		led.setOnCheckedChangeListener((buttonView, isChecked) -> viewModel.setLedState(isChecked));
-		viewModel.getConnectionState().observe(this, state -> {
-			switch (state.getState()) {
-				case CONNECTING:
-					progressContainer.setVisibility(View.VISIBLE);
-					notSupported.setVisibility(View.GONE);
-					connectionState.setText(R.string.state_connecting);
-					break;
-				case INITIALIZING:
-					connectionState.setText(R.string.state_initializing);
-					break;
-				case READY:
-					progressContainer.setVisibility(View.GONE);
-					//content.setVisibility(View.VISIBLE);
-					onConnectionStateChanged(true);
-					break;
-				case DISCONNECTED:
-					if (state instanceof ConnectionState.Disconnected) {
-						final ConnectionState.Disconnected stateWithReason = (ConnectionState.Disconnected) state;
-						if (stateWithReason.isNotSupported()) {
-							progressContainer.setVisibility(View.GONE);
-							notSupported.setVisibility(View.VISIBLE);
-						}
-					}
-					// fallthrough
-				case DISCONNECTING:
-					onConnectionStateChanged(false);
-					break;
-			}
-		});
-		viewModel.getLedState().observe(this, isOn -> {
-			ledState.setText(isOn ? R.string.turn_on : R.string.turn_off);
-			led.setChecked(isOn);
-		});
-		viewModel.getButtonState().observe(this,
-				pressed -> buttonState.setText(pressed ?
-						R.string.button_pressed : R.string.button_released));
-	}
+        ///////////////////////////////////////
+        ImageView imagebutton = new ImageView(SmartBagActivty.this);
+        imagebutton.setImageResource(R.drawable.icon_sterile);
+        imagebutton.setLayoutParams(new LinearLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.icon_width), getResources().getDimensionPixelSize(R.dimen.icon_height)));
+        quickAccess.addView(imagebutton);
 
-	@OnClick(R.id.action_clear_cache)
-	public void onTryAgainClicked() {
-		viewModel.reconnect();
-	}
+        ImageView imagebutton2 = new ImageView(SmartBagActivty.this);
+        imagebutton2.setImageResource(R.drawable.icon_security);
+        imagebutton2.setLayoutParams(new LinearLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.icon_width), getResources().getDimensionPixelSize(R.dimen.icon_height)));
+        quickAccess.addView(imagebutton2);
 
-	private void onConnectionStateChanged(final boolean connected) {
-		led.setEnabled(connected);
-		if (!connected) {
-			led.setChecked(false);
-			buttonState.setText(R.string.button_unknown);
-		}
-	}
-	public void colorCircleClicked(View view){
+        ImageView imagebutton3 = new ImageView(SmartBagActivty.this);
+        imagebutton3.setImageResource(R.drawable.icon_laptop);
+        imagebutton3.setLayoutParams(new LinearLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.icon_width), getResources().getDimensionPixelSize(R.dimen.icon_height)));
+        quickAccess.addView(imagebutton3);
 
-	}
+        ImageView imagebutton4 = new ImageView(SmartBagActivty.this);
+        imagebutton4.setImageResource(R.drawable.icon_battery);
+        imagebutton4.setLayoutParams(new LinearLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.icon_width), getResources().getDimensionPixelSize(R.dimen.icon_height)));
+        quickAccess.addView(imagebutton4);
+
+        ImageView imagebutton5 = new ImageView(SmartBagActivty.this);
+        imagebutton5.setImageResource(R.drawable.icon_findmybag);
+        imagebutton5.setLayoutParams(new LinearLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.icon_width), getResources().getDimensionPixelSize(R.dimen.icon_height)));
+        quickAccess.addView(imagebutton5);
+
+
+
+        ImageView imagebutton6 = new ImageView(SmartBagActivty.this);
+        imagebutton6.setImageResource(R.drawable.icon_flashlight);
+        imagebutton6.setLayoutParams(new LinearLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.icon_width), getResources().getDimensionPixelSize(R.dimen.icon_height)));
+        quickAccess.addView(imagebutton6);
+
+
+        ImageView imagebutton7 = new ImageView(SmartBagActivty.this);
+        imagebutton7.setImageResource(R.drawable.icon_pocket1);
+        imagebutton7.setLayoutParams(new LinearLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.icon_width), getResources().getDimensionPixelSize(R.dimen.icon_height)));
+        quickAccess.addView(imagebutton7);
+
+        ImageView imagebutton8 = new ImageView(SmartBagActivty.this);
+        imagebutton8.setImageResource(R.drawable.icon_pocket2);
+        imagebutton8.setLayoutParams(new LinearLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.icon_width), getResources().getDimensionPixelSize(R.dimen.icon_height)));
+        quickAccess.addView(imagebutton8);
+
+
+        ImageView imagebutton9 = new ImageView(SmartBagActivty.this);
+        imagebutton9.setImageResource(R.drawable.icon_pocket3);
+        imagebutton9.setLayoutParams(new LinearLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.icon_width), getResources().getDimensionPixelSize(R.dimen.icon_height)));
+        quickAccess.addView(imagebutton9);
+        ///////////////////////////////////////
+
+
+//        led.setOnCheckedChangeListener((buttonView, isChecked) -> viewModel.setLedState(isChecked));
+//        viewModel.getConnectionState().observe(this, state -> {
+//            switch (state.getState()) {
+//                case CONNECTING:
+//                    progressContainer.setVisibility(View.VISIBLE);
+//                    notSupported.setVisibility(View.GONE);
+//                    connectionState.setText(R.string.state_connecting);
+//                    break;
+//                case INITIALIZING:
+//                    connectionState.setText(R.string.state_initializing);
+//                    break;
+//                case READY:
+//                    progressContainer.setVisibility(View.GONE);
+//                    //content.setVisibility(View.VISIBLE);
+//                    onConnectionStateChanged(true);
+//                    break;
+//                case DISCONNECTED:
+//                    if (state instanceof ConnectionState.Disconnected) {
+//                        final ConnectionState.Disconnected stateWithReason = (ConnectionState.Disconnected) state;
+//                        if (stateWithReason.isNotSupported()) {
+//                            progressContainer.setVisibility(View.GONE);
+//                            notSupported.setVisibility(View.VISIBLE);
+//                        }
+//                    }
+//                    // fallthrough
+//                case DISCONNECTING:
+//                    onConnectionStateChanged(false);
+//                    break;
+//            }
+//        });
+//        viewModel.getLedState().observe(this, isOn -> {
+//            ledState.setText(isOn ? R.string.turn_on : R.string.turn_off);
+//            led.setChecked(isOn);
+//        });
+//        viewModel.getButtonState().observe(this,
+//                pressed -> buttonState.setText(pressed ?
+//                        R.string.button_pressed : R.string.button_released));
+    }
+
+    @OnClick(R.id.action_clear_cache)
+    public void onTryAgainClicked() {
+        viewModel.reconnect();
+    }
+
+    private void onConnectionStateChanged(final boolean connected) {
+//        led.setEnabled(connected);
+//        if (!connected) {
+//            led.setChecked(false);
+//            buttonState.setText(R.string.button_unknown);
+//        }
+    }
+
+    public void colorCircleClicked(View view) {
+
+    }
 }

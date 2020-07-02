@@ -40,4 +40,6 @@
     <dimen name="small_margin">10dp</dimen>
     <dimen name="side_menu_quick_access_radius">45dp</dimen>
     <dimen name="quick_access_margin">8dp</dimen>
+    <dimen name="icon_width">108dp</dimen>
+    <dimen name="icon_height">108dp</dimen>
 </resources>
