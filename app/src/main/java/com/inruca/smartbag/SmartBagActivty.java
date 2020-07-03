@@ -23,18 +23,24 @@
 package com.inruca.smartbag;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.inruca.smartbag.adapter.DiscoveredBluetoothDevice;
 import com.inruca.smartbag.viewmodels.BlinkyViewModel;
@@ -45,7 +51,7 @@ import butterknife.OnClick;
 import no.nordicsemi.android.ble.livedata.state.ConnectionState;
 
 @SuppressWarnings("ConstantConditions")
-public class SmartBagActivty extends AppCompatActivity {
+public class SmartBagActivty extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public static final String EXTRA_DEVICE = "com.inruca.smartbag.blinky.EXTRA_DEVICE";
 
     private BlinkyViewModel viewModel;
@@ -60,11 +66,13 @@ public class SmartBagActivty extends AppCompatActivity {
     DrawerLayout drawer;
     @BindView(R.id.nav_drawer_icon_toolbar)
     ImageView nav_drawer_icon_toolbar;
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_blinky);
+        setContentView(R.layout.smart_bag_home);
         ButterKnife.bind(this);
 
         final Intent intent = getIntent();
@@ -79,6 +87,7 @@ public class SmartBagActivty extends AppCompatActivity {
 //        toolbar.setSubtitle(deviceAddress);
 //        setSupportActionBar(toolbar);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        navigationView.setNavigationItemSelectedListener(this);
 
         nav_drawer_icon_toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,7 +216,33 @@ public class SmartBagActivty extends AppCompatActivity {
         }
     }
 
-    public void colorCircleClicked(View view) {
+    private void openLink(String address) {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(address));
+        startActivity(i);
+    }
 
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+
+        switch (item.getItemId()) {
+            case R.id.menu_help:
+                openLink("https://inruca.com/apps/help-center");
+                break;
+            case R.id.menu_shop:
+                openLink("https://inruca.com");
+                break;
+            case R.id.menu_terms:
+                openLink("https://inruca.com/policies/terms-of-service");
+                break;
+            case R.id.menu_privacy:
+                openLink("https://inruca.com/policies/privacy-policy");
+                break;
+
+        }
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }
