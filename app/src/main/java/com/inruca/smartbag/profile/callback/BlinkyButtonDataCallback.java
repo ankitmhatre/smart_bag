@@ -23,6 +23,8 @@
 package com.inruca.smartbag.profile.callback;
 
 import android.bluetooth.BluetoothDevice;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import no.nordicsemi.android.ble.callback.profile.ProfileDataCallback;
@@ -35,6 +37,8 @@ public abstract class BlinkyButtonDataCallback implements ProfileDataCallback, B
 
     @Override
     public void onDataReceived(@NonNull final BluetoothDevice device, @NonNull final Data data) {
+
+       // Log.d("BUTTONSTATECHANGE", "Button" + data.toString());
         if (data.size() != 1) {
             onInvalidDataReceived(device, data);
             return;

@@ -68,6 +68,8 @@ public class SmartBagActivty extends AppCompatActivity implements NavigationView
     ImageView nav_drawer_icon_toolbar;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+    @BindView(R.id.console_log_tv)
+    TextView console_log_tv;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -201,6 +203,9 @@ public class SmartBagActivty extends AppCompatActivity implements NavigationView
         viewModel.getButtonState().observe(this,
                 pressed -> buttonState.setText(pressed ?
                         R.string.button_pressed : R.string.button_released));
+        viewModel.getLatestLogUpdate().observe(this, s -> {
+            console_log_tv.setText(s);
+        });
     }
 
     @OnClick(R.id.action_clear_cache)

@@ -24,6 +24,7 @@ package com.inruca.smartbag.viewmodels;
 
 import android.app.Application;
 import android.bluetooth.BluetoothDevice;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -54,6 +55,9 @@ public class BlinkyViewModel extends AndroidViewModel {
 		return blinkyManager.getButtonState();
 	}
 
+	public LiveData<String> getLatestLogUpdate() {
+		return blinkyManager.getLatestLogUpdate();
+	}
 	public LiveData<Boolean> getLedState() {
 		return blinkyManager.getLedState();
 	}
@@ -102,6 +106,7 @@ public class BlinkyViewModel extends AndroidViewModel {
 	 * @param on true to turn the LED on, false to turn it OFF.
 	 */
 	public void setLedState(final boolean on) {
+
 		blinkyManager.turnLed(on);
 	}
 

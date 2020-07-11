@@ -23,6 +23,8 @@
 package com.inruca.smartbag.profile.callback;
 
 import android.bluetooth.BluetoothDevice;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import no.nordicsemi.android.ble.callback.DataSentCallback;
@@ -36,6 +38,8 @@ public abstract class BlinkyLedDataCallback implements ProfileDataCallback, Data
 
     @Override
     public void onDataReceived(@NonNull final BluetoothDevice device, @NonNull final Data data) {
+
+        Log.d("BUTTONSTATECHANGE", "led" + data.toString());
         parse(device, data);
     }
 

@@ -40,6 +40,7 @@
 
 
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -196,8 +197,12 @@
         android:visibility="gone"
         tools:visibility="gone" />
 
-
-
+    <TextView
+        android:id="@+id/console_log_tv"
+        android:layout_below="@id/divider_upper_1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="TextView" />
 
 
 </RelativeLayout>

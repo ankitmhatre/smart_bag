@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "871949079686",
+    "firebase_url": "https://smart-bag-ca817.firebaseio.com",
+    "project_id": "smart-bag-ca817",
+    "storage_bucket": "smart-bag-ca817.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:871949079686:android:96d8e5966293975afded07",
+        "android_client_info": {
+          "package_name": "com.inruca.smartbag"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "871949079686-2b4686t7o3mjsqm3vsufghu6bch2l6sl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inruca.smartbag",
+            "certificate_hash": "9e0a0496d630a693e22c4f3507b6e36a2c5e7abc"
+          }
+        },
+        {
+          "client_id": "871949079686-igpleip7ddn3a33qvp98fu4j28mju39u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDRF5vOLJw89JNZ-OM7UC017JzG9Yxpbs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "871949079686-igpleip7ddn3a33qvp98fu4j28mju39u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

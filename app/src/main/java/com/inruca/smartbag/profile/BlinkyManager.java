@@ -34,32 +34,43 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.inruca.smartbag.profile.callback.BlinkyButtonDataCallback;
+import com.inruca.smartbag.profile.callback.BlinkyLedDataCallback;
+import com.inruca.smartbag.profile.callback.InrucaButtonDataCallback;
+import com.inruca.smartbag.profile.data.BlinkyLED;
+
 import java.util.UUID;
 
 import no.nordicsemi.android.ble.data.Data;
 import no.nordicsemi.android.ble.livedata.ObservableBleManager;
-import com.inruca.smartbag.profile.callback.BlinkyButtonDataCallback;
-import com.inruca.smartbag.profile.callback.BlinkyLedDataCallback;
-import com.inruca.smartbag.profile.data.BlinkyLED;
 import no.nordicsemi.android.log.LogContract;
 import no.nordicsemi.android.log.LogSession;
 import no.nordicsemi.android.log.Logger;
 
 public class BlinkyManager extends ObservableBleManager {
-	/** Nordic Blinky Service UUID. */
+
+
 	public final static UUID LBS_UUID_SERVICE = UUID.fromString("00001523-1212-efde-1523-785feabcd123");
-	/** BUTTON characteristic UUID. */
 	private final static UUID LBS_UUID_BUTTON_CHAR = UUID.fromString("00001524-1212-efde-1523-785feabcd123");
-	/** LED characteristic UUID. */
 	private final static UUID LBS_UUID_LED_CHAR = UUID.fromString("00001525-1212-efde-1523-785feabcd123");
+
+
+	private final static UUID INRUCA_UV_BUZZER_SERVICE = UUID.fromString("e54b0001-67f5-479e-8711-b3b99198ce6c");
+	private final static UUID INRUCA_UV_CHAR = UUID.fromString("e54b0002-67f5-479e-8711-b3b99198ce6c");
+	private final static UUID INRUCA_BUZZER_CHAR = UUID.fromString("e54b0003-67f5-479e-8711-b3b99198ce6c");
+
+	private final static UUID INRUCA_BATTERY_SERVICE = UUID.fromString("0000180f-0000-1000-8000-00805f9b34fb");
+	private final static UUID INRUCA_BATTERY_CHAR = UUID.fromString("00002a19-0000-1000-8000-00805f9b3");
+
 
 	private final MutableLiveData<Boolean> ledState = new MutableLiveData<>();
 	private final MutableLiveData<Boolean> buttonState = new MutableLiveData<>();
 
-	private BluetoothGattCharacteristic buttonCharacteristic, ledCharacteristic;
+	private BluetoothGattCharacteristic buttonCharacteristic, ledCharacteristic, uvCharacteristic, buzzerCharacteristic, batteryCharacteristic;
 	private LogSession logSession;
 	private boolean supported;
 	private boolean ledOn;
+	private BluetoothGatt bluetoothGatt;
 
 	public BlinkyManager(@NonNull final Context context) {
 		super(context);
@@ -73,6 +84,8 @@ public class BlinkyManager extends ObservableBleManager {
 		return buttonState;
 	}
 
+	private MutableLiveData<String> logText = new MutableLiveData<>();
+
 	@NonNull
 	@Override
 	protected BleManagerGattCallback getGattCallback() {
@@ -81,6 +94,7 @@ public class BlinkyManager extends ObservableBleManager {
 
 	/**
 	 * Sets the log session to be used for low level logging.
+	 *
 	 * @param session the session, or null, if nRF Logger is not installed.
 	 */
 	public void setLogger(@Nullable final LogSession session) {
@@ -118,9 +132,10 @@ public class BlinkyManager extends ObservableBleManager {
 		@Override
 		public void onInvalidDataReceived(@NonNull final BluetoothDevice device,
 										  @NonNull final Data data) {
-			log(Log.WARN, "Invalid data received: " + data);
+			Log.d("Invalid data received: ", data.toString());
 		}
 	};
+
 
 	/**
 	 * The LED callback will be notified when the LED state was read or sent to the target device.
@@ -150,41 +165,109 @@ public class BlinkyManager extends ObservableBleManager {
 		}
 	};
 
+
+	private final InrucaButtonDataCallback inrucaButtonDataCallback = new InrucaButtonDataCallback() {
+
+
+		@Override
+		public void onButtonStateChanged(BluetoothDevice device, Data data) {
+
+			logText.setValue(logText.getValue() + "\nStateChanged " + data.toString()); //Log.d("IBDC:change:front", data.toString());
+		}
+
+		@Override
+		public void onDataSent(@NonNull BluetoothDevice device, @NonNull Data data) {
+			logText.setValue(logText.getValue()  +"\nSent " + data.toString());
+			Log.d("IBDC:sent:front", data.toString());
+		}
+
+		@Override
+		public void onInvalidDataReceived(@NonNull BluetoothDevice device, @NonNull Data data) {
+			logText.setValue(logText.getValue() + "\nInvalidData " + data.toString());
+			Log.d("IBDC", data.toString());
+			super.onInvalidDataReceived(device, data);
+		}
+	};
+
+	public LiveData<String> getLatestLogUpdate(){
+		return logText;
+	}
 	/**
 	 * BluetoothGatt callbacks object.
 	 */
 	private class BlinkyBleManagerGattCallback extends BleManagerGattCallback {
 		@Override
 		protected void initialize() {
-			setNotificationCallback(buttonCharacteristic).with(buttonCallback);
-			readCharacteristic(ledCharacteristic).with(ledCallback).enqueue();
-			readCharacteristic(buttonCharacteristic).with(buttonCallback).enqueue();
+
+
+			setNotificationCallback(buttonCharacteristic).with(inrucaButtonDataCallback);
+			readCharacteristic(buttonCharacteristic).with(inrucaButtonDataCallback).enqueue();
 			enableNotifications(buttonCharacteristic).enqueue();
+
+			setNotificationCallback(buzzerCharacteristic).with(inrucaButtonDataCallback);
+			readCharacteristic(buzzerCharacteristic).with(inrucaButtonDataCallback).enqueue();
+			enableNotifications(buzzerCharacteristic).enqueue();
+
+			setNotificationCallback(ledCharacteristic).with(inrucaButtonDataCallback);
+			readCharacteristic(ledCharacteristic).with(inrucaButtonDataCallback).enqueue();
+			enableNotifications(ledCharacteristic).enqueue();
+
+			setNotificationCallback(uvCharacteristic).with(inrucaButtonDataCallback);
+			readCharacteristic(uvCharacteristic).with(inrucaButtonDataCallback).enqueue();
+			enableNotifications(uvCharacteristic).enqueue();
+
+			setNotificationCallback(batteryCharacteristic).with(inrucaButtonDataCallback);
+			readCharacteristic(batteryCharacteristic).with(inrucaButtonDataCallback).enqueue();
+			enableNotifications(batteryCharacteristic).enqueue();
+
+
+
 		}
 
 		@Override
 		public boolean isRequiredServiceSupported(@NonNull final BluetoothGatt gatt) {
+			bluetoothGatt = gatt;
+
+
 			final BluetoothGattService service = gatt.getService(LBS_UUID_SERVICE);
+			final BluetoothGattService uvBuzzerService = gatt.getService(INRUCA_UV_BUZZER_SERVICE);
+			final BluetoothGattService batteryService = gatt.getService(INRUCA_BATTERY_SERVICE);
+
 			if (service != null) {
 				buttonCharacteristic = service.getCharacteristic(LBS_UUID_BUTTON_CHAR);
 				ledCharacteristic = service.getCharacteristic(LBS_UUID_LED_CHAR);
 			}
 
-			boolean writeRequest = false;
-			if (ledCharacteristic != null) {
-				final int rxProperties = ledCharacteristic.getProperties();
-				writeRequest = (rxProperties & BluetoothGattCharacteristic.PROPERTY_WRITE) > 0;
+
+			if (uvBuzzerService != null) {
+				uvCharacteristic = uvBuzzerService.getCharacteristic(INRUCA_UV_CHAR);
+				buzzerCharacteristic = uvBuzzerService.getCharacteristic(INRUCA_BUZZER_CHAR);
 			}
 
-			supported = buttonCharacteristic != null && ledCharacteristic != null && writeRequest;
-			return supported;
+			if (batteryService != null) {
+				batteryCharacteristic = batteryService.getCharacteristic(INRUCA_BATTERY_CHAR);
+			}
+
+//			boolean writeRequest = false;
+//			if (ledCharacteristic != null) {
+//				final int rxProperties = ledCharacteristic.getProperties();
+//				writeRequest = (rxProperties & BluetoothGattCharacteristic.PROPERTY_WRITE) > 0;
+//			}
+//
+//			supported = buttonCharacteristic != null && ledCharacteristic != null && writeRequest;
+			return true;
 		}
 
 		@Override
 		protected void onDeviceDisconnected() {
 			buttonCharacteristic = null;
 			ledCharacteristic = null;
+			uvCharacteristic = null;
+			buzzerCharacteristic = null;
+			batteryCharacteristic = null;
 		}
+
+
 	}
 
 	/**
@@ -202,8 +285,10 @@ public class BlinkyManager extends ObservableBleManager {
 			return;
 
 		log(Log.VERBOSE, "Turning LED " + (on ? "ON" : "OFF") + "...");
+
+		Log.d("turnLed", on + "");
 		writeCharacteristic(ledCharacteristic,
 				on ? BlinkyLED.turnOn() : BlinkyLED.turnOff())
-				.with(ledCallback).enqueue();
+				.with(inrucaButtonDataCallback).enqueue();
 	}
 }
