@@ -27,21 +27,40 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.inruca.smartbag.auth.LogInActivity;
+
 public class SplashScreenActivity extends Activity {
 	private static final int DURATION = 1000;
+	private FirebaseAuth firebaseAuth;
+	private FirebaseUser firebaseUser;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash_screen);
+		firebaseAuth = FirebaseAuth.getInstance();
+		firebaseUser = firebaseAuth.getCurrentUser();
 
-		new Handler().postDelayed(() -> {
-			final Intent intent = new Intent(this, ScannerActivity.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-			startActivity(intent);
-			finish();
-		}, DURATION);
+		if (firebaseUser != null) {
+			new Handler().postDelayed(() -> {
+				final Intent intent = new Intent(this, ScannerActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+				startActivity(intent);
+				finish();
+			}, DURATION);
+		} else {
+
+			new Handler().postDelayed(() -> {
+				final Intent intent = new Intent(this, LogInActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+				startActivity(intent);
+				finish();
+			}, DURATION);
+		}
 	}
+
 
 	@Override
 	public void onBackPressed() {
