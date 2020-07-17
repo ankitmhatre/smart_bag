@@ -40,8 +40,6 @@ jobs:
           name: app
           path: app/build/outputs/apk/debug/app-debug.apk
       - name: Sign Android release
-        uses:
-      - name: Sign Android release
         uses: r0adkll/sign-android-release@v1
         with:
           name: app
