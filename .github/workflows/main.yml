@@ -36,7 +36,6 @@ jobs:
         run: bash ./gradlew assembleDebug --stacktrace
       - name: Sign Android release
         uses: r0adkll/sign-android-release@v1
-        name: Generate Signed
         with:
           releaseDirectory: app/build/outputs/apk/release
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
