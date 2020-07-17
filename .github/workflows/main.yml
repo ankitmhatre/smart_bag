@@ -43,4 +43,5 @@ jobs:
         uses: r0adkll/sign-android-release@v1
         with:
           name: app
+          releaseDirectory: app/build/outputs/apk/release
           path: app/build/outputs/apk/release/app-release.apk
