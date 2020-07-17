@@ -35,9 +35,7 @@
         <activity
             android:name=".auth.LogInActivity"
             android:launchMode="singleTop" />
-              <activity android:name=".SmartBagDashboard"
-                 android:launchMode="singleTop">
-               </activity>
+             
 
     </application>
 
