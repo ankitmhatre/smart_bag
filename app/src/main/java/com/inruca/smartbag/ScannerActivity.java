@@ -114,7 +114,8 @@ public class ScannerActivity extends AppCompatActivity implements DevicesAdapter
             public void onClick(View v) {
                 new Handler().postDelayed(() -> {
                     final Intent intent = new Intent(ScannerActivity.this, SmartBagActivty.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    intent.putExtra(SmartBagActivty.EXTRA_DEVICE, null);
+intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
                     finish();
                 }, 0);
