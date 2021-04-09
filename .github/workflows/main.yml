@@ -1,17 +1,14 @@
-name: Android Pull Request & Master CI
+name: Build & upload to Firebase App Distribution
 
 on:
-  pull_request:
-    branches:
-      - 'master'
   push:
     branches:
-      - 'master'
+      - master
 
 jobs:
-  test:
-    name: Run Unit Tests
-    runs-on: ubuntu-18.04
+  build:
+
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v1
@@ -19,32 +16,21 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Unit tests
-        run: bash ./gradlew test --stacktrace
-
-  apk:
-    name: Generate APK
-    runs-on: ubuntu-18.04
-
-    steps:
-      - uses: actions/checkout@v1
-      - name: set up JDK 1.8
-        uses: actions/setup-java@v1
-        with:
-          java-version: 1.8
-      - name: Build debug APK
+      - name: build debug
         run: bash ./gradlew assembleRelease --stacktrace
       - name: Sign Android release
         uses: r0adkll/sign-android-release@v1
         with:
-          releaseDirectory: app/build/outputs/apk/release/
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
-      - name: Upload Apk 
-        uses: actions/upload-artifact@v1
+         releaseDirectory: app/build/outputs/apk/release/
+         signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+         alias: ${{ secrets.ALIAS }}
+         keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+         keyPassword: ${{ secrets.KEY_PASSWORD }}
+
+      - name: upload artifact to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.2.1
         with:
-          name: app
-          path: app/build/outputs/apk/release/app-release-unsigned-signed.apk
-    
+          appId: ${{secrets.FIREBASE_APP_ID}}
+          token: ${{secrets.FIREBASE_TOKEN}}
+          groups: internel-testing-team[debug]
+          file: app/build/outputs/apk/release/app-release-unsigned-signed.apk
